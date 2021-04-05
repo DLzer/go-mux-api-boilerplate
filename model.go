@@ -4,17 +4,20 @@ import (
 	"database/sql"
 )
 
+// Product Interface
 type product struct {
 	ID    int     `json:"id"`
 	Name  string  `json:"name"`
 	Price float64 `json:"price"`
 }
 
+// getProduct will return a single product given a valid ID
 func (p *product) getProduct(db *sql.DB) error {
 	return db.QueryRow("SELECT name, price FROM products WHERE id=$1",
 		p.ID).Scan(&p.Name, &p.Price)
 }
 
+// updateProduct will update an individual product row given a valid ID
 func (p *product) updateProduct(db *sql.DB) error {
 	_, err :=
 		db.Exec("UPDATE products SET name=$1, price=$2 WHERE id=$3",
@@ -23,12 +26,14 @@ func (p *product) updateProduct(db *sql.DB) error {
 	return err
 }
 
+// deleteProduct will remove a product row given a valid ID
 func (p *product) deleteProduct(db *sql.DB) error {
 	_, err := db.Exec("DELETE FROM products WHERE id=$1", p.ID)
 
 	return err
 }
 
+// createProduct will save a new product given the correct payload
 func (p *product) createProduct(db *sql.DB) error {
 	err := db.QueryRow(
 		"INSERT INTO products(name, price) VALUES($1, $2) RETURNING id",
@@ -41,6 +46,7 @@ func (p *product) createProduct(db *sql.DB) error {
 	return nil
 }
 
+// getProducts will return a list of products using limit and offset
 func getProducts(db *sql.DB, start, count int) ([]product, error) {
 	rows, err := db.Query(
 		"SELECT id, name,  price FROM products LIMIT $1 OFFSET $2",

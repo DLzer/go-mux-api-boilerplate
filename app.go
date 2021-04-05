@@ -47,11 +47,12 @@ func (a *App) initializeRoutes() {
 	a.Router.HandleFunc("/product/{id:[0-9]+}", a.deleteProduct).Methods("DELETE")
 }
 
-// respondWithError will
+// respondWithError will normalize error resoponses to JSON format
 func respondWithError(w http.ResponseWriter, code int, message string) {
 	respondWithJSON(w, code, map[string]string{"error": message})
 }
 
+// respondWithJSON will normalize all API response to JSON format
 func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
 	response, _ := json.Marshal(payload)
 
@@ -60,6 +61,7 @@ func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
 	w.Write(response)
 }
 
+// getProduct will return a single product given a valid ID
 func (a *App) getProduct(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id, err := strconv.Atoi(vars["id"])
@@ -82,6 +84,7 @@ func (a *App) getProduct(w http.ResponseWriter, r *http.Request) {
 	respondWithJSON(w, http.StatusOK, p)
 }
 
+// getProducts will return a list of products using limit and offset
 func (a *App) getProducts(w http.ResponseWriter, r *http.Request) {
 	count, _ := strconv.Atoi(r.FormValue("count"))
 	start, _ := strconv.Atoi(r.FormValue("start"))
@@ -102,6 +105,7 @@ func (a *App) getProducts(w http.ResponseWriter, r *http.Request) {
 	respondWithJSON(w, http.StatusOK, products)
 }
 
+// createProduct will save a new product given the correct payload
 func (a *App) createProduct(w http.ResponseWriter, r *http.Request) {
 	var p product
 	decoder := json.NewDecoder(r.Body)
@@ -119,6 +123,7 @@ func (a *App) createProduct(w http.ResponseWriter, r *http.Request) {
 	respondWithJSON(w, http.StatusCreated, p)
 }
 
+// updateProduct will update an individual product row given a valid ID
 func (a *App) updateProduct(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id, err := strconv.Atoi(vars["id"])
@@ -144,6 +149,7 @@ func (a *App) updateProduct(w http.ResponseWriter, r *http.Request) {
 	respondWithJSON(w, http.StatusOK, p)
 }
 
+// deleteProduct will remove a product row given a valid ID
 func (a *App) deleteProduct(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id, err := strconv.Atoi(vars["id"])

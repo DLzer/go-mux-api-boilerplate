@@ -13,6 +13,7 @@ import (
 
 var a App
 
+// Test database and table connection
 func TestMain(m *testing.M) {
 	a.Initialize(
 		os.Getenv("APP_DB_USERNAME"),
@@ -25,12 +26,14 @@ func TestMain(m *testing.M) {
 	os.Exit(code)
 }
 
+// Ensure that the database table exists, if not create it
 func ensureTableExists() {
 	if _, err := a.DB.Exec(tableCreationQuery); err != nil {
 		log.Fatal(err)
 	}
 }
 
+// Truncate the products table
 func clearTable() {
 	a.DB.Exec("DELETE FROM products")
 	a.DB.Exec("ALTER SEQUENCE products_id_seq RESTART WITH 1")
@@ -44,6 +47,7 @@ const tableCreationQuery = `CREATE TABLE IF NOT EXISTS products
     CONSTRAINT products_pkey PRIMARY KEY (id)
 )`
 
+// Confirm that the table is empty
 func TestEmptyTable(t *testing.T) {
 	clearTable()
 
@@ -57,6 +61,7 @@ func TestEmptyTable(t *testing.T) {
 	}
 }
 
+// Send an HTTP request
 func executeRequest(req *http.Request) *httptest.ResponseRecorder {
 	rr := httptest.NewRecorder()
 	a.Router.ServeHTTP(rr, req)
@@ -64,12 +69,14 @@ func executeRequest(req *http.Request) *httptest.ResponseRecorder {
 	return rr
 }
 
+// Check the response code verse the expected response
 func checkResponseCode(t *testing.T, expected, actual int) {
 	if expected != actual {
 		t.Errorf("Expected response code %d. Got %d\n", expected, actual)
 	}
 }
 
+// Test that getting a non-existent product returns an error
 func TestGetNonExistentProduct(t *testing.T) {
 	clearTable()
 
@@ -85,6 +92,7 @@ func TestGetNonExistentProduct(t *testing.T) {
 	}
 }
 
+// Test creating a successful product
 func TestCreateProduct(t *testing.T) {
 
 	clearTable()
@@ -114,6 +122,7 @@ func TestCreateProduct(t *testing.T) {
 	}
 }
 
+// Test getting a single product by ID
 func TestGetProduct(t *testing.T) {
 	clearTable()
 	addProducts(1)
@@ -124,6 +133,7 @@ func TestGetProduct(t *testing.T) {
 	checkResponseCode(t, http.StatusOK, response.Code)
 }
 
+// Test adding multiple products
 func addProducts(count int) {
 	if count < 1 {
 		count = 1
@@ -134,6 +144,7 @@ func addProducts(count int) {
 	}
 }
 
+// Test updating a product
 func TestUpdateProduct(t *testing.T) {
 
 	clearTable()
@@ -168,6 +179,7 @@ func TestUpdateProduct(t *testing.T) {
 	}
 }
 
+// Test deleting an individual product
 func TestDeleteProduct(t *testing.T) {
 	clearTable()
 	addProducts(1)
