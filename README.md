@@ -30,7 +30,7 @@ The expected output should be:
 === RUN   TestDeleteProduct
 --- PASS: TestDeleteProduct (0.01s)
 PASS
-ok      github.com/tomfern/go-mux       0.071s
+ok      github.com/DLzer/go-product-api       0.071s
 ```
 
 ## Running an instance of PostgreSQL
