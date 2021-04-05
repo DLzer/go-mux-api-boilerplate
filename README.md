@@ -5,9 +5,16 @@
 -- Modeling
 -- Gorilla/Mux
 
-## Test for yourself
+## Clone the repo
 ```bash
 $ git clone github.com/DLzer/go-product-api
+```
+
+## Set your default PostreSQL variables
+```bash
+export APP_DB_USERNAME=postgres
+export APP_DB_PASSWORD=
+export APP_DB_NAME=postgres
 ```
 
 ## Running the tests
