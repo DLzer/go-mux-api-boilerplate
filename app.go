@@ -19,6 +19,7 @@ type App struct {
 
 // Initialize creates a new database connection and starts the route function
 func (a *App) Initialize(user, password, dbname string) {
+
 	connectionString :=
 		fmt.Sprintf("user=%s password=%s dbname=%s sslmode=disable", user, password, dbname)
 

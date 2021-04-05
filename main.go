@@ -1,9 +1,15 @@
 package main
 
-import "os"
+import (
+	"os"
+)
 
 // Initialize App
 func main() {
+
+	// username := os.Getenv("APP_DB_USERNAME")
+	// fmt.Println(username)
+
 	a := App{}
 	a.Initialize(
 		os.Getenv("APP_DB_USERNAME"),
