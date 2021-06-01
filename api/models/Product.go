@@ -1,0 +1,69 @@
+package models
+
+import (
+	"errors"
+
+	"github.com/jinzhu/gorm"
+)
+
+// Product Interface
+type Product struct {
+	ID    int     `gorm:"primary_key;auto_increment" json:"id"`
+	Name  string  `gorm:"size:255;not null;" json:"name"`
+	Price float64 `json:"price"`
+}
+
+// GetProduct will return a single product given a valid ID
+func (p *Product) GetProduct(db *gorm.DB, uid uint32) (*Product, error) {
+	var err error
+	err = db.Debug().Model(Product{}).Where("id = ?", uid).Take(&p).Error
+	if err != nil {
+		return &Product{}, err
+	}
+	if gorm.IsRecordNotFoundError(err) {
+		return &Product{}, errors.New("Product Not Found")
+	}
+
+	return p, err
+}
+
+// updateProduct will update an individual product row given a valid ID
+func (p *Product) updateProduct(db *gorm.DB) (*Product, error) {
+	var err error
+	err = db.Debug().Save(&p).Error
+	if err != nil {
+		return &Product{}, err
+	}
+	return p, nil
+}
+
+// deleteProduct will remove a product row given a valid ID
+func (p *Product) deleteProduct(db *gorm.DB, uid uint32) (int64, error) {
+	db = db.Debug().Model(&Product{}).Where("id = ?", uid).Take(&Product{}).Delete(&Product{})
+
+	if db.Error != nil {
+		return 0, db.Error
+	}
+	return db.RowsAffected, nil
+}
+
+// createProduct will save a new product given the correct payload
+func (p *Product) createProduct(db *gorm.DB) (*Product, error) {
+	var err error
+	err = db.Debug().Create(&p).Error
+	if err != nil {
+		return &Product{}, err
+	}
+	return p, nil
+}
+
+// Return all scans, limiting by 100
+func (s *Product) FindAllScans(db *gorm.DB) (*[]Product, error) {
+	var err error
+	products := []Product{}
+	err = db.Debug().Model(&Product{}).Limit(100).Find(&products).Error
+	if err != nil {
+		return &[]Product{}, err
+	}
+	return &products, err
+}
