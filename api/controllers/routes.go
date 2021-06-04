@@ -8,9 +8,9 @@ func (s *Server) initializeRoutes() {
 	// Home Route
 	s.Router.HandleFunc("/", middlewares.SetMiddlewareJSON(s.Home)).Methods("GET")
 
-	s.Router.HandleFunc("/products", middlewares.SetMiddlewareJSON(s.getProducts)).Methods("GET")
-	s.Router.HandleFunc("/product", middlewares.SetMiddlewareJSON(s.createProduct)).Methods("POST")
-	s.Router.HandleFunc("/product/{id:[0-9]+}", middlewares.SetMiddlewareJSON(s.getProduct)).Methods("GET")
-	s.Router.HandleFunc("/product/{id:[0-9]+}", middlewares.SetMiddlewareJSON(s.updateProduct)).Methods("PUT")
-	s.Router.HandleFunc("/product/{id:[0-9]+}", middlewares.SetMiddlewareJSON(s.deleteProduct)).Methods("DELETE")
+	s.Router.HandleFunc("/products", middlewares.SetMiddlewareJSON(s.FindAllPRoducts)).Methods("GET")
+	s.Router.HandleFunc("/product", middlewares.SetMiddlewareJSON(s.CreateProduct)).Methods("POST")
+	s.Router.HandleFunc("/product/{id:[0-9]+}", middlewares.SetMiddlewareJSON(s.GetProduct)).Methods("GET")
+	s.Router.HandleFunc("/product/{id:[0-9]+}", middlewares.SetMiddlewareJSON(s.UpdateProduct)).Methods("PUT")
+	s.Router.HandleFunc("/product/{id:[0-9]+}", middlewares.SetMiddlewareJSON(s.DeleteProduct)).Methods("DELETE")
 }
