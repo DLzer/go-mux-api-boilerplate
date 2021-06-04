@@ -5,8 +5,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/DLzer/go-product-api.git/api/controllers"
-	"github.com/DLzer/go-product-api.git/api/seed"
+	"github.com/DLzer/go-product-api/api/controllers"
+	"github.com/DLzer/go-product-api/api/seed"
 	"github.com/joho/godotenv"
 )
 

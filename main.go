@@ -1,6 +1,6 @@
 package main
 
-import "github.com/DLzer/go-product-api.git/api"
+import "github.com/DLzer/go-product-api/api"
 
 func main() {
 	api.Run()

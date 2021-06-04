@@ -3,7 +3,7 @@ package seed
 import (
 	"log"
 
-	"github.com/DLzer/go-product-api.git/api/models"
+	"github.com/DLzer/go-product-api/api/models"
 	"github.com/jinzhu/gorm"
 )
 

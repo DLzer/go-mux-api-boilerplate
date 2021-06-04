@@ -55,11 +55,27 @@ func (p *Product) CreateProduct(db *gorm.DB) (*Product, error) {
 }
 
 // Return all scans, limiting by 100
-func (s *Product) FindAllProducts(db *gorm.DB) (*[]Product, error) {
+func (p *Product) FindAllProducts(db *gorm.DB) (*[]Product, error) {
 	products := []Product{}
 	err := db.Debug().Model(&Product{}).Limit(100).Find(&products).Error
 	if err != nil {
 		return &[]Product{}, err
 	}
 	return &products, err
+}
+
+// Validate a product
+func (p *Product) Validate(action string) error {
+	switch action {
+	case "normal":
+		if p.Name == "" {
+			return errors.New("required name")
+		}
+		return nil
+	default:
+		if p.Name == "" {
+			return errors.New("required name")
+		}
+		return nil
+	}
 }
