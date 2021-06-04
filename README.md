@@ -53,3 +53,12 @@ PASS
 ok      github.com/DLzer/go-product-api       0.071s
 ```
 
+## Deployment
+This application comes with dockerfiles prepped for deployment of the application, postres, and PGAdmin.
+With docker installed and running - run the command:
+```bash
+$ docker-compose up --build
+```
+This will fire up a new app with all three containers. After it's up an running just visit `http://localhost:8080` 
+and you'll be greeted accordingly!
+
