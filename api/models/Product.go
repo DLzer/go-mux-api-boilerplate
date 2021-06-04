@@ -27,8 +27,19 @@ func (p *Product) GetProduct(db *gorm.DB, uid uint32) (*Product, error) {
 }
 
 // updateProduct will update an individual product row given a valid ID
-func (p *Product) UpdateProduct(db *gorm.DB) (*Product, error) {
-	err := db.Debug().Save(&p).Error
+func (p *Product) UpdateProduct(db *gorm.DB, uid uint32) (*Product, error) {
+
+	db = db.Debug().Model(&Product{}).Where("id = ?", uid).Take(&Product{}).UpdateColumns(
+		map[string]interface{}{
+			"Name":  p.Name,
+			"Price": p.Price,
+		},
+	)
+	if db.Error != nil {
+		return &Product{}, db.Error
+	}
+	// This is to display the updated product
+	err := db.Debug().Model(&Product{}).Where("id = ?", uid).Take(&p).Error
 	if err != nil {
 		return &Product{}, err
 	}

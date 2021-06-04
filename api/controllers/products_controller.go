@@ -42,6 +42,8 @@ func (server *Server) CreateProduct(w http.ResponseWriter, r *http.Request) {
 }
 
 func (server *Server) UpdateProduct(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	uid, err := strconv.ParseUint(vars["id"], 10, 32)
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		responses.ERROR(w, http.StatusUnprocessableEntity, err)
@@ -60,7 +62,7 @@ func (server *Server) UpdateProduct(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	productUpdated, err := product.UpdateProduct(server.DB)
+	productUpdated, err := product.UpdateProduct(server.DB, uint32(uid))
 	if err != nil {
 		responses.ERROR(w, http.StatusUnprocessableEntity, err)
 		return
