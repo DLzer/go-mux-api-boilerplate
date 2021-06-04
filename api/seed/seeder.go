@@ -26,9 +26,4 @@ func Load(db *gorm.DB) {
 	if err != nil {
 		log.Fatalf("cannot seed scan table: %v", err)
 	}
-
-	err = db.Debug().Model(&models.Product{}).Create(&product).Error
-	if err != nil {
-		log.Fatalf("cannot seed scan table: %v", err)
-	}
 }
