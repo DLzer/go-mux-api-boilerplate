@@ -62,3 +62,6 @@ $ docker-compose up --build
 This will fire up a new app with all three containers. After it's up an running just visit `http://localhost:8080` 
 and you'll be greeted accordingly!
 
+
+## Version
+1.0.0
